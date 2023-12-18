@@ -1,0 +1,45 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Oswald', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.5;
+  }
+  
+  .container {
+    max-width: 600px;
+    padding: 20px;
+  }
+  
+  img {
+    display: block;
+    max-width: 100%;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  
+  .is-hidden {
+    display: none;
+  }
+  
+  .breed-select {
+    
+    max-width: 500px;
+    margin-bottom: 20px;
+  }
+  
+  .cat-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    background-color: #f0f0f0;
+
+  }
+  
