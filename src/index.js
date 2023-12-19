@@ -50,10 +50,21 @@ function onSelectBreed(event) {
     .then(data => {
       loader.classList.add('is-hidden');
       selector.classList.remove('is-hidden');
-      const { url, breeds } = data[0];
 
-      divCatInfo.innerHTML = `<div class="box-img"><img src="${url}" alt="${breeds[0].name}" width="400"/></div><div class="box"><h1>${breeds[0].name}</h1><p>${breeds[0].description}</p><p><b>Temperament:</b> ${breeds[0].temperament}</p></div>`;
-      divCatInfo.classList.remove('is-hidden');
+      if (data.length === 0 || data[0].breeds.length === 0) {
+        divCatInfo.innerHTML = '';
+        Notify.failure('Breed not found. Please select another cat breed.', {
+          position: 'center-center',
+          timeout: 5000,
+          width: '400px',
+          fontSize: '24px',
+        });
+      } else {
+        const { url, breeds } = data[0];
+
+        divCatInfo.innerHTML = `<div class="box-img"><img src="${url}" alt="${breeds[0].name}" width="400"/></div><div class="box"><h1>${breeds[0].name}</h1><p>${breeds[0].description}</p><p><b>Temperament:</b> ${breeds[0].temperament}</p></div>`;
+        divCatInfo.classList.remove('is-hidden');
+      }
     })
     .catch(onFetchError);
 }
