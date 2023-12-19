@@ -11,26 +11,25 @@ const ref = {
   error: document.querySelector('.error'),
 };
 
-
 const { selector, divCatInfo, loader, error } = ref;
 
-loader.classList.replace('loader', 'is-hidden');
 error.classList.add('is-hidden');
 divCatInfo.classList.add('is-hidden');
+selector.classList.add('is-hidden'); // Initially hide the select box
 
+loader.classList.remove('is-hidden'); // Show the loader initially
 
 let arrBreedsId = [];
 
 fetchBreeds()
   .then(data => {
-    loader.classList.replace('is-hidden', 'loader');
-    
-    
+    loader.classList.add('is-hidden'); // Hide the loader after data is loaded
+    selector.classList.remove('is-hidden'); // Show the select box
+
     data.forEach(element => {
       arrBreedsId.push({ text: element.name, value: element.id });
     });
 
-    
     new SlimSelect({
       select: selector,
       data: arrBreedsId,
@@ -38,37 +37,31 @@ fetchBreeds()
   })
   .catch(onFetchError);
 
-
 selector.addEventListener('change', onSelectBreed);
 
-
 function onSelectBreed(event) {
-  loader.classList.replace('is-hidden', 'loader');
+  loader.classList.remove('is-hidden');
   selector.classList.add('is-hidden');
   divCatInfo.classList.add('is-hidden');
 
   const breedId = event.currentTarget.value;
 
-  
   fetchCatByBreed(breedId)
     .then(data => {
-      loader.classList.replace('loader', 'is-hidden');
+      loader.classList.add('is-hidden');
       selector.classList.remove('is-hidden');
       const { url, breeds } = data[0];
 
-      
       divCatInfo.innerHTML = `<div class="box-img"><img src="${url}" alt="${breeds[0].name}" width="400"/></div><div class="box"><h1>${breeds[0].name}</h1><p>${breeds[0].description}</p><p><b>Temperament:</b> ${breeds[0].temperament}</p></div>`;
       divCatInfo.classList.remove('is-hidden');
     })
     .catch(onFetchError);
 }
 
-
 function onFetchError(error) {
   selector.classList.remove('is-hidden');
-  loader.classList.replace('loader', 'is-hidden');
+  loader.classList.add('is-hidden'); // Hide the loader on error
 
-  
   Notify.failure(
     'Oops! Something went wrong! Try reloading the page or select another cat breed!',
     {
